@@ -1,8 +1,6 @@
 package com.jrinehuls.foodservice.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import org.hibernate.annotations.OnDelete;
 
 @Entity
 @Table(name = "nutrient")
