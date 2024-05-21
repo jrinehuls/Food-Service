@@ -11,7 +11,7 @@ public class NutrientTypeMapper {
     public NutrientTypeResponseDto mapNutrientTypeToDto(NutrientType nutrientType) {
         NutrientTypeResponseDto responseDto = new NutrientTypeResponseDto();
         responseDto.setId(nutrientType.getId());
-        nutrientType.setName(nutrientType.getName());
+        responseDto.setName(nutrientType.getName());
         return responseDto;
     }
 
@@ -19,6 +19,10 @@ public class NutrientTypeMapper {
         NutrientType nutrientType = new NutrientType();
         nutrientType.setName(requestDto.getName());
         return nutrientType;
+    }
+
+    public void mapDtoToNutrientType(NutrientType current, NutrientTypeRequestDto requestDto) {
+        current.setName(requestDto.getName());
     }
 
 }

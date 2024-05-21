@@ -11,7 +11,7 @@ public class NutrientUomMapper {
     public NutrientUomResponseDto mapNutrientUomToDto(NutrientUom nutrientUom) {
         NutrientUomResponseDto responseDto = new NutrientUomResponseDto();
         responseDto.setId(nutrientUom.getId());
-        nutrientUom.setName(nutrientUom.getName());
+        responseDto.setName(nutrientUom.getName());
         return responseDto;
     }
 
