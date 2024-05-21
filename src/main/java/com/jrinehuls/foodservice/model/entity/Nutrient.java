@@ -1,7 +1,11 @@
 package com.jrinehuls.foodservice.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "nutrient")
 public class Nutrient {
