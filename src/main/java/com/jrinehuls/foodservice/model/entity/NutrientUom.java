@@ -7,8 +7,8 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.util.Set;
 
 @Entity
-@Table(name = "unit_of_measurement")
-public class UnitOfMeasurement {
+@Table(name = "nutrient_uom")
+public class NutrientUom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

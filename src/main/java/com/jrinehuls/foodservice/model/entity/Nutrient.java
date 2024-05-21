@@ -18,7 +18,7 @@ public class Nutrient {
     private NutrientType name;
 
     @ManyToOne()
-    @JoinColumn(name = "uom_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK__unit_of_measurement__nutrient")) // nullable = true
-    private UnitOfMeasurement uom;
+    @JoinColumn(name = "uom_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK__nutrient_uom__nutrient")) // nullable = true
+    private NutrientUom uom;
 
 }
