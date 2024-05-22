@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 @Service
@@ -28,9 +27,9 @@ public class NutrientTypeServiceImpl implements NutrientTypeService, Findable<Nu
 
     @Override
     public NutrientTypeResponseDto createNutrientType(NutrientTypeRequestDto requestDto) {
-        Optional<NutrientType> existingNutrientType = nutrientTypeRepository.findByNameIgnoreCase(requestDto.getName());
+        boolean exists = nutrientTypeRepository.findByNameIgnoreCase(requestDto.getName()).isPresent();
         String message = String.format("NutritionType with name %s already exists", requestDto.getName());
-        this.throwIfExists(existingNutrientType, () -> new NutritionTypeConflictException(message));
+        this.throwIfExists(exists, () -> new NutritionTypeConflictException(message));
 
         NutrientType nutrientType = mapper.mapDtoToNutrientType(requestDto);
         NutrientType savedNutrientType = nutrientTypeRepository.save(nutrientType);
@@ -64,9 +63,9 @@ public class NutrientTypeServiceImpl implements NutrientTypeService, Findable<Nu
     public NutrientTypeResponseDto updateNutrientType(int id, NutrientTypeRequestDto requestDto) {
         NutrientType nutrientType = this.findByIdOrThrow(id, () -> new NutrientTypeNotFoundException(id));
 
-        Optional<NutrientType> existingNutrientType = nutrientTypeRepository.findByNameIgnoreCase(requestDto.getName());
+        boolean exists = nutrientTypeRepository.findByNameIgnoreCase(requestDto.getName()).isPresent();
         String message = String.format("NutritionType with name %s already exists", requestDto.getName());
-        this.throwIfExists(existingNutrientType, () -> new NutritionTypeConflictException(message));
+        this.throwIfExists(exists, () -> new NutritionTypeConflictException(message));
 
         mapper.mapDtoToNutrientType(nutrientType, requestDto);
         NutrientType updatedNutrientType = nutrientTypeRepository.save(nutrientType);
@@ -85,8 +84,8 @@ public class NutrientTypeServiceImpl implements NutrientTypeService, Findable<Nu
     }
 
     @Override
-    public <X extends ConflictException> void throwIfExists(Optional<NutrientType> instance, Supplier<X> supplier) throws X {
-        if (instance.isPresent()) {
+    public <X extends ConflictException> void throwIfExists(boolean exists, Supplier<X> supplier) throws X {
+        if (exists) {
             throw supplier.get();
         }
     }

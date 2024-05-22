@@ -8,5 +8,5 @@ import java.util.function.Supplier;
 
 public interface Findable<T, ID> {
     <X extends NotFoundException> T findByIdOrThrow(ID id, Supplier<X> supplier) throws X;
-    <X extends ConflictException> void throwIfExists(Optional<T> instance, Supplier<X> supplier) throws X;
+    <X extends ConflictException> void throwIfExists(boolean exists, Supplier<X> supplier) throws X;
 }
