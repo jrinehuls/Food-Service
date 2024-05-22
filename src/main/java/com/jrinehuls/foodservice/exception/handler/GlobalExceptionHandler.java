@@ -40,7 +40,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {ApiException.class})
     protected ResponseEntity<Object> handleApiException(ApiException ex) {
         ErrorResponse response = new ErrorResponse(ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, ex.getStatusCode());
     }
 
 }
