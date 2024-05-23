@@ -15,10 +15,15 @@ public class NutrientUomMapper {
         return responseDto;
     }
 
-    public NutrientUom mapDtoToNutrientTUom(NutrientUomRequestDto requestDto) {
+    public NutrientUom mapDtoToNutrientUom(NutrientUomRequestDto requestDto) {
         NutrientUom nutrientUom = new NutrientUom();
         nutrientUom.setName(requestDto.getName());
         return nutrientUom;
+    }
+
+
+    public void mapDtoToNutrientUom(NutrientUom current, NutrientUomRequestDto requestDto) {
+        current.setName(requestDto.getName());
     }
 
 }

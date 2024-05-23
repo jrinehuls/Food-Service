@@ -1,7 +1,7 @@
 package com.jrinehuls.foodservice.service.impl;
 
 import com.jrinehuls.foodservice.exception.conflict.ConflictException;
-import com.jrinehuls.foodservice.exception.conflict.NutritionTypeConflictException;
+import com.jrinehuls.foodservice.exception.conflict.NutrientTypeConflictException;
 import com.jrinehuls.foodservice.exception.notfound.NotFoundException;
 import com.jrinehuls.foodservice.exception.notfound.NutrientTypeNotFoundException;
 import com.jrinehuls.foodservice.model.dto.nutrient.type.NutrientTypeRequestDto;
@@ -27,9 +27,8 @@ public class NutrientTypeServiceImpl implements NutrientTypeService, Findable<Nu
 
     @Override
     public NutrientTypeResponseDto createNutrientType(NutrientTypeRequestDto requestDto) {
-        boolean exists = nutrientTypeRepository.findByNameIgnoreCase(requestDto.getName()).isPresent();
-        String message = String.format("NutritionType with name %s already exists", requestDto.getName());
-        this.throwIfExists(exists, () -> new NutritionTypeConflictException(message));
+        String name = requestDto.getName();
+        this.throwIfExists(name, () -> new NutrientTypeConflictException("NutritionType with name " + name + " already exists"));
 
         NutrientType nutrientType = mapper.mapDtoToNutrientType(requestDto);
         NutrientType savedNutrientType = nutrientTypeRepository.save(nutrientType);
@@ -63,9 +62,8 @@ public class NutrientTypeServiceImpl implements NutrientTypeService, Findable<Nu
     public NutrientTypeResponseDto updateNutrientType(int id, NutrientTypeRequestDto requestDto) {
         NutrientType nutrientType = this.findByIdOrThrow(id, () -> new NutrientTypeNotFoundException(id));
 
-        boolean exists = nutrientTypeRepository.findByNameIgnoreCase(requestDto.getName()).isPresent();
-        String message = String.format("NutritionType with name %s already exists", requestDto.getName());
-        this.throwIfExists(exists, () -> new NutritionTypeConflictException(message));
+        String name = requestDto.getName();
+        this.throwIfExists(name, () -> new NutrientTypeConflictException("NutritionType with name " + name + " already exists"));
 
         mapper.mapDtoToNutrientType(nutrientType, requestDto);
         NutrientType updatedNutrientType = nutrientTypeRepository.save(nutrientType);
@@ -79,12 +77,13 @@ public class NutrientTypeServiceImpl implements NutrientTypeService, Findable<Nu
     }
 
     @Override
-    public <X extends NotFoundException> NutrientType findByIdOrThrow(Integer id, Supplier<X> supplier) throws X {
+    public <X extends NotFoundException> NutrientType findByIdOrThrow(Integer id, Supplier<X> supplier) {
         return nutrientTypeRepository.findById(id).orElseThrow(supplier);
     }
 
     @Override
-    public <X extends ConflictException> void throwIfExists(boolean exists, Supplier<X> supplier) throws X {
+    public <X extends ConflictException> void throwIfExists(String name, Supplier<X> supplier) {
+        boolean exists = nutrientTypeRepository.findByNameIgnoreCase(name).isPresent();
         if (exists) {
             throw supplier.get();
         }

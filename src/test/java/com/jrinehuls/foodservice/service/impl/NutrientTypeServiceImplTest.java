@@ -1,5 +1,6 @@
 package com.jrinehuls.foodservice.service.impl;
 
+import com.jrinehuls.foodservice.exception.notfound.NutrientTypeNotFoundException;
 import com.jrinehuls.foodservice.model.dto.nutrient.type.NutrientTypeResponseDto;
 import com.jrinehuls.foodservice.model.entity.NutrientType;
 import com.jrinehuls.foodservice.repository.NutrientTypeRepository;
@@ -70,6 +71,18 @@ class NutrientTypeServiceImplTest {
         verify(repository, times(1)).findByNameIgnoreCase(name);
         assertEquals(id, responseDto.getId());
         assertEquals(name, responseDto.getName());
+    }
+
+    @Test
+    void getNutrientTypeByName_notFound() {
+        // Arrange
+        String name = "Protein";
+        when(repository.findByNameIgnoreCase(any(String.class))).thenReturn(Optional.empty());
+        // Act
+        NutrientTypeNotFoundException ex = assertThrows(NutrientTypeNotFoundException.class, () -> nutrientTypeService.getNutrientType(name));
+        // Assert
+        verify(repository, times(1)).findByNameIgnoreCase(name);
+        assertEquals("NutrientType with name " + name + " not found", ex.getMessage());
     }
 
     @Test
