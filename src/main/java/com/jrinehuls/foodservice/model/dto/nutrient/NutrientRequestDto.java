@@ -3,7 +3,9 @@ package com.jrinehuls.foodservice.model.dto.nutrient;
 import com.jrinehuls.foodservice.validation.Int;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
+@Data
 public class NutrientRequestDto {
 
     // TODO: Make Double Validation
