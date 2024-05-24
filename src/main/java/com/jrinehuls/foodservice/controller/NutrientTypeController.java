@@ -37,7 +37,7 @@ public class NutrientTypeController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<NutrientTypeResponseDto>> GetAllNutrientTypes() {
+    public ResponseEntity<List<NutrientTypeResponseDto>> getAllNutrientTypes() {
         List<NutrientTypeResponseDto> responseDtos = nutrientTypeService.getAllNutrientTypes();
         return new ResponseEntity<>(responseDtos, HttpStatus.OK);
     }
