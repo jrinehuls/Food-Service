@@ -1,9 +1,10 @@
 package com.jrinehuls.foodservice.validation;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class IntegerValidation implements ConstraintValidator<Int, Object> {
+public class IntegerValidation implements ConstraintValidator<Int, Integer> {
 
     int min;
     int max;
@@ -15,15 +16,11 @@ public class IntegerValidation implements ConstraintValidator<Int, Object> {
     }
 
     @Override
-    public boolean isValid(Object value, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(Integer value, ConstraintValidatorContext constraintValidatorContext) {
         if (value == null) {
             return false;
         }
-        if (value instanceof Integer) {
-            int intValue = (Integer) value;
-            return intValue >= min && intValue <= max;
-        }
-        return false;
+        return value >= min && value <= max;
     }
 
 }
