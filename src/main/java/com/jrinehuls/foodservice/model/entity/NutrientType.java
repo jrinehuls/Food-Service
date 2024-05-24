@@ -21,7 +21,7 @@ public class NutrientType {
     @Column(unique = true, nullable = false, length = 50)
     private String name;
 
-    @OneToMany(mappedBy = "name")
+    @OneToMany(mappedBy = "type")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Set<Nutrient> nutrients;
 
