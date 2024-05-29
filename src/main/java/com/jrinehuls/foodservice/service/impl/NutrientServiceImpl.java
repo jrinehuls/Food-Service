@@ -11,6 +11,8 @@ import com.jrinehuls.foodservice.model.entity.Nutrient;
 import com.jrinehuls.foodservice.model.entity.NutrientType;
 import com.jrinehuls.foodservice.model.entity.NutrientUom;
 import com.jrinehuls.foodservice.repository.NutrientRepository;
+import com.jrinehuls.foodservice.repository.NutrientTypeRepository;
+import com.jrinehuls.foodservice.repository.NutrientUomRepository;
 import com.jrinehuls.foodservice.service.Findable;
 import com.jrinehuls.foodservice.service.NutrientService;
 import com.jrinehuls.foodservice.util.mapping.nutrient.NutrientMapper;
@@ -26,17 +28,19 @@ import java.util.function.Supplier;
 public class NutrientServiceImpl implements NutrientService, Findable<Nutrient, Long> {
 
     private final NutrientRepository nutrientRepository;
-    private final Findable<NutrientType, Integer> nutrientTypeServiceImpl;
     private final Findable<NutrientUom, Integer> nutrientUomServiceImpl;
+    private final Findable<NutrientType, Integer> nutrientTypeServiceImpl;
     private final NutrientMapper mapper;
 
     @Override
     public NutrientResponseDto createNutrient(NutrientRequestDto requestDto) {
-        int uomId = requestDto.getUomId();
-        int typeId = requestDto.getTypeId();
+        String uomName = requestDto.getUom();
+        String typeName = requestDto.getType();
 
-        NutrientUom uom = nutrientUomServiceImpl.findByIdOrThrow(uomId, () -> new NutrientNotFoundException(uomId));
-        NutrientType type = nutrientTypeServiceImpl.findByIdOrThrow(typeId, () -> new NutrientTypeNotFoundException(typeId));
+        NutrientUom uom = nutrientUomServiceImpl.findByNameOrThrow(uomName,
+                () -> new NutrientUomNotFoundException(String.format("NutrientUom with name %s not found", uomName)));
+        NutrientType type = nutrientTypeServiceImpl.findByNameOrThrow(typeName,
+                () -> new NutrientTypeNotFoundException(String.format("NutrientType with name %s not found", typeName)));
 
         Nutrient nutrient = new Nutrient(requestDto.getAmount(), uom, type);
 
@@ -66,11 +70,11 @@ public class NutrientServiceImpl implements NutrientService, Findable<Nutrient, 
     @Override
     public NutrientResponseDto updateNutrient(long id, NutrientRequestDto requestDto) {
         Nutrient nutrient = this.findByIdOrThrow(id, () -> new NutrientNotFoundException(id));
-        if (nutrient.getType().getId().intValue() != requestDto.getTypeId().intValue()) {
-            updateNutrientType(nutrient, requestDto.getTypeId());
+        if (!nutrient.getType().getName().equals(requestDto.getType())) {
+            updateNutrientType(nutrient, requestDto.getType());
         }
-        if (nutrient.getUom().getId().intValue() != requestDto.getUomId().intValue()) {
-            updateNutrientUom(nutrient, requestDto.getUomId());
+        if (!nutrient.getUom().getName().equals(requestDto.getUom())) {
+            updateNutrientUom(nutrient, requestDto.getUom());
         }
         Nutrient updatedNutrient = nutrientRepository.save(nutrient);
         return mapper.mapNutrientToDto(updatedNutrient);
@@ -88,15 +92,22 @@ public class NutrientServiceImpl implements NutrientService, Findable<Nutrient, 
     }
 
     @Override
+    public <X extends NotFoundException> Nutrient findByNameOrThrow(String name, Supplier<X> supplier) {
+        return null;
+    }
+
+    @Override
     public <X extends ConflictException> void throwIfExists(String field, Supplier<X> supplier) {}
 
-    private void updateNutrientType(Nutrient nutrient, int typeId) {
-        NutrientType newType = nutrientTypeServiceImpl.findByIdOrThrow(typeId, () -> new NutrientTypeNotFoundException(typeId));
+    private void updateNutrientType(Nutrient nutrient, String typeName) {
+        NutrientType newType = nutrientTypeServiceImpl.findByNameOrThrow(typeName,
+                () -> new NutrientTypeNotFoundException(String.format("NutrientType with name %s not found", typeName)));
         nutrient.setType(newType);
     }
 
-    private void updateNutrientUom(Nutrient nutrient, int uomId) {
-        NutrientUom newUom = nutrientUomServiceImpl.findByIdOrThrow(uomId, () -> new NutrientUomNotFoundException(uomId));
+    private void updateNutrientUom(Nutrient nutrient, String uomName) {
+        NutrientUom newUom = nutrientUomServiceImpl.findByNameOrThrow(uomName,
+                () -> new NutrientUomNotFoundException(String.format("NutrientType with name %s not found", uomName)));
         nutrient.setUom(newUom);
     }
 

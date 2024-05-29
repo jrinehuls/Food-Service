@@ -82,6 +82,11 @@ public class NutrientUomServiceImpl implements NutrientUomService, Findable<Nutr
     }
 
     @Override
+    public <X extends NotFoundException> NutrientUom findByNameOrThrow(String name, Supplier<X> supplier) {
+        return nutrientUomRepository.findByNameIgnoreCase(name).orElseThrow(supplier);
+    }
+
+    @Override
     public <X extends ConflictException> void throwIfExists(String name, Supplier<X> supplier) {
         boolean exists = nutrientUomRepository.findByNameIgnoreCase(name).isPresent();
         if (exists) {

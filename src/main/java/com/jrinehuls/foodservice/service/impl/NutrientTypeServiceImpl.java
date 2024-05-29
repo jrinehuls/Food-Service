@@ -82,6 +82,11 @@ public class NutrientTypeServiceImpl implements NutrientTypeService, Findable<Nu
     }
 
     @Override
+    public <X extends NotFoundException> NutrientType findByNameOrThrow(String name, Supplier<X> supplier) {
+        return nutrientTypeRepository.findByNameIgnoreCase(name).orElseThrow(supplier);
+    }
+
+    @Override
     public <X extends ConflictException> void throwIfExists(String name, Supplier<X> supplier) {
         boolean exists = nutrientTypeRepository.findByNameIgnoreCase(name).isPresent();
         if (exists) {

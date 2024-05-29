@@ -17,16 +17,4 @@ public class NutrientMapper {
         return responseDto;
     }
 
-    /*
-    public Nutrient mapDtoToNutrient(NutrientRequestDto requestDto) {
-        Nutrient nutrient = new Nutrient();
-        nutrient.setAmount(requestDto.getAmount());
-        nutrient.setName(requestDto.getName());
-        return nutrient;
-    }
-
-    public void mapDtoToNutrient(Nutrient current, NutrientRequestDto requestDto) {
-        current.setName(requestDto.getName());
-    }*/
-
 }
