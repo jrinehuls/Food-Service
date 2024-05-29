@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// TODO: Unique Constraint on NutritionFact and NutritionType
 @Getter
 @Setter
 @Entity
