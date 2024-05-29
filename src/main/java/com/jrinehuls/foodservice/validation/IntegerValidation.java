@@ -1,6 +1,5 @@
 package com.jrinehuls.foodservice.validation;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

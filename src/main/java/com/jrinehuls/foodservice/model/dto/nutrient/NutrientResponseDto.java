@@ -6,7 +6,7 @@ import lombok.Data;
 public class NutrientResponseDto {
 
     private Long id;
-    private Double amount;
+    private Integer amount;
     private String uom;
     private String type;
 

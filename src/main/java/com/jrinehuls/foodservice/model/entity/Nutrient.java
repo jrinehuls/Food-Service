@@ -17,7 +17,7 @@ public class Nutrient {
     private Long id;
 
     @Column(nullable = false)
-    private Double amount;
+    private Integer amount;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "uom_id", referencedColumnName = "id", nullable = false,
@@ -29,7 +29,13 @@ public class Nutrient {
             foreignKey = @ForeignKey(name = "FK__nutrient_type__nutrient"))
     private NutrientType type;
 
-    public Nutrient(Double amount, NutrientUom uom, NutrientType type) {
+    // TODO: make optional and nullable false, but rework Nutrient service logic
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "nutrition_fact_id", referencedColumnName = "id", nullable = true,
+        foreignKey = @ForeignKey(name = "FK__nutrition_fact__nutrient"))
+    private NutritionFact nutritionFact;
+
+    public Nutrient(Integer amount, NutrientUom uom, NutrientType type) {
         this.amount = amount;
         this.uom = uom;
         this.type = type;
