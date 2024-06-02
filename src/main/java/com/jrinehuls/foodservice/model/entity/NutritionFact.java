@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "nutrition_fact")
@@ -28,6 +28,6 @@ public class NutritionFact {
 
     @OneToMany(mappedBy = "nutritionFact")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Set<Nutrient> nutrients;
+    private List<Nutrient> nutrients;
 
 }

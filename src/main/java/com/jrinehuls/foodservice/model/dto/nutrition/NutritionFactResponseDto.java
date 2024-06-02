@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class NutritionFactResponseDto {
 
-    private Integer id;
+    private Long id;
 
     private Integer servingSize;
 

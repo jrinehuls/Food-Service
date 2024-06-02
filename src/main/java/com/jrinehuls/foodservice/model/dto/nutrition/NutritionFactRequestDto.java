@@ -18,6 +18,7 @@ public class NutritionFactRequestDto {
     @NotBlank(message = "servingUnit cannot be blank or empty")
     private String servingUnit;
 
+    @NotNull(message = "nutrients must be provided, but can be an empty list")
     private List<NutrientRequestDto> nutrients;
 
 }
