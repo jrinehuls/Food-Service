@@ -28,7 +28,6 @@ public class NutrientServiceImpl implements NutrientService, Findable<Nutrient, 
     private final NutrientRepository nutrientRepository;
     private final Findable<NutrientType, Integer> typeFindable;
     private final Findable<NutritionFact, Long> factFindable;
-
     private final NutrientMapper mapper;
 
     @Override

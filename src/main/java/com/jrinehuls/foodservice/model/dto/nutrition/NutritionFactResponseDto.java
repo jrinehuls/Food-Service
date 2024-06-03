@@ -1,6 +1,6 @@
 package com.jrinehuls.foodservice.model.dto.nutrition;
 
-import com.jrinehuls.foodservice.model.dto.nutrient.NutrientResponseDto;
+import com.jrinehuls.foodservice.model.dto.nutrient.NutrientForFactResponseDto;
 import lombok.Data;
 
 import java.util.List;
@@ -8,12 +8,14 @@ import java.util.List;
 @Data
 public class NutritionFactResponseDto {
 
-    private Long id;
+    private long id;
 
-    private Integer servingSize;
+    private int calories;
+
+    private int servingSize;
 
     private String servingUnit;
 
-    private List<NutrientResponseDto> nutrients;
+    private List<NutrientForFactResponseDto> nutrients;
 
 }
