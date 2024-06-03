@@ -13,7 +13,7 @@ import java.util.Set;
 public class NutrientType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(unique = true, nullable = false, length = 50)
