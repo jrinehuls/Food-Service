@@ -2,7 +2,7 @@ package com.jrinehuls.foodservice.controller;
 
 import com.jrinehuls.foodservice.model.dto.nutrient.NutrientRequestDto;
 import com.jrinehuls.foodservice.model.dto.nutrient.NutrientResponseDto;
-import com.jrinehuls.foodservice.model.service.NutrientService;
+import com.jrinehuls.foodservice.service.NutrientService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

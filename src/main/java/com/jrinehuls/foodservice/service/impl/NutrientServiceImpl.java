@@ -1,4 +1,4 @@
-package com.jrinehuls.foodservice.model.service.impl;
+package com.jrinehuls.foodservice.service.impl;
 
 import com.jrinehuls.foodservice.exception.conflict.NutrientConflictException;
 import com.jrinehuls.foodservice.exception.notfound.NotFoundException;
@@ -10,9 +10,9 @@ import com.jrinehuls.foodservice.model.dto.nutrient.NutrientResponseDto;
 import com.jrinehuls.foodservice.model.entity.Nutrient;
 import com.jrinehuls.foodservice.model.entity.NutrientType;
 import com.jrinehuls.foodservice.model.entity.NutritionFact;
-import com.jrinehuls.foodservice.model.service.Findable;
+import com.jrinehuls.foodservice.service.Findable;
 import com.jrinehuls.foodservice.repository.NutrientRepository;
-import com.jrinehuls.foodservice.model.service.NutrientService;
+import com.jrinehuls.foodservice.service.NutrientService;
 import com.jrinehuls.foodservice.util.mapping.nutrient.NutrientMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

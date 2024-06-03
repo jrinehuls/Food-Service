@@ -1,4 +1,4 @@
-package com.jrinehuls.foodservice.model.service;
+package com.jrinehuls.foodservice.service;
 
 import com.jrinehuls.foodservice.exception.conflict.ConflictException;
 import com.jrinehuls.foodservice.exception.notfound.NotFoundException;

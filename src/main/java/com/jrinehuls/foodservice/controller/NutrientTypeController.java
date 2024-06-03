@@ -1,7 +1,7 @@
 package com.jrinehuls.foodservice.controller;
 
 import com.jrinehuls.foodservice.model.dto.nutrient.type.NutrientTypeResponseDto;
-import com.jrinehuls.foodservice.model.service.NutrientTypeService;
+import com.jrinehuls.foodservice.service.NutrientTypeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
