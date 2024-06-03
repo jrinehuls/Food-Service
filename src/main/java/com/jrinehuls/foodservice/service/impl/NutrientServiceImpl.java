@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 @Service
@@ -79,9 +80,9 @@ public class NutrientServiceImpl implements NutrientService, Findable<Nutrient, 
         return nutrientRepository.findById(id).orElseThrow(supplier);
     }
 
-    private void throwIfExists(int nutrientTypeId, long nutritionFactId) {
-        boolean isPresent = nutrientRepository.findByNutrientTypeIdAndNutritionFactId(nutrientTypeId, nutritionFactId).isPresent();
-        if (isPresent) {
+    protected void throwIfExists(int nutrientTypeId, long nutritionFactId) {
+        Optional<Nutrient> nutrient = nutrientRepository.findByNutrientTypeIdAndNutritionFactId(nutrientTypeId, nutritionFactId);
+        if (nutrient.isPresent()) {
             throw new NutrientConflictException(nutrientTypeId, nutritionFactId);
         }
     }
