@@ -1,27 +1,18 @@
-package com.jrinehuls.foodservice.service.impl;
+package com.jrinehuls.foodservice.model.service.impl;
 
-import com.jrinehuls.foodservice.exception.badrequest.DuplicateNutrientRequestTypeException;
-import com.jrinehuls.foodservice.exception.conflict.ConflictException;
 import com.jrinehuls.foodservice.exception.notfound.NotFoundException;
-import com.jrinehuls.foodservice.exception.notfound.NutrientTypeNotFoundException;
-import com.jrinehuls.foodservice.model.dto.nutrient.NutrientRequestDto;
-import com.jrinehuls.foodservice.model.dto.nutrient.NutrientResponseDto;
 import com.jrinehuls.foodservice.model.dto.nutrition.NutritionFactRequestDto;
 import com.jrinehuls.foodservice.model.dto.nutrition.NutritionFactResponseDto;
-import com.jrinehuls.foodservice.model.entity.Nutrient;
-import com.jrinehuls.foodservice.model.entity.NutrientType;
 import com.jrinehuls.foodservice.model.entity.NutritionFact;
 import com.jrinehuls.foodservice.repository.NutrientTypeRepository;
 import com.jrinehuls.foodservice.repository.NutritionFactRepository;
-import com.jrinehuls.foodservice.service.Findable;
-import com.jrinehuls.foodservice.service.NutritionFactService;
+import com.jrinehuls.foodservice.model.service.Findable;
+import com.jrinehuls.foodservice.model.service.NutritionFactService;
 import com.jrinehuls.foodservice.util.mapping.nutrient.NutrientMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 @Service

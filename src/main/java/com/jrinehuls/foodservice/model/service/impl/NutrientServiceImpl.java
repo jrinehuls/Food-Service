@@ -1,6 +1,5 @@
-package com.jrinehuls.foodservice.service.impl;
+package com.jrinehuls.foodservice.model.service.impl;
 
-import com.jrinehuls.foodservice.exception.conflict.ConflictException;
 import com.jrinehuls.foodservice.exception.conflict.NutrientConflictException;
 import com.jrinehuls.foodservice.exception.notfound.NotFoundException;
 import com.jrinehuls.foodservice.exception.notfound.NutrientNotFoundException;
@@ -11,10 +10,9 @@ import com.jrinehuls.foodservice.model.dto.nutrient.NutrientResponseDto;
 import com.jrinehuls.foodservice.model.entity.Nutrient;
 import com.jrinehuls.foodservice.model.entity.NutrientType;
 import com.jrinehuls.foodservice.model.entity.NutritionFact;
+import com.jrinehuls.foodservice.model.service.Findable;
 import com.jrinehuls.foodservice.repository.NutrientRepository;
-import com.jrinehuls.foodservice.repository.NutritionFactRepository;
-import com.jrinehuls.foodservice.service.Findable;
-import com.jrinehuls.foodservice.service.NutrientService;
+import com.jrinehuls.foodservice.model.service.NutrientService;
 import com.jrinehuls.foodservice.util.mapping.nutrient.NutrientMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,22 +26,18 @@ import java.util.function.Supplier;
 public class NutrientServiceImpl implements NutrientService, Findable<Nutrient, Long> {
 
     private final NutrientRepository nutrientRepository;
-    private final Findable<NutrientType, Integer> nutrientTypeServiceImpl;
-    private final Findable<NutritionFact, Long> nutritionFactServiceImpl;
+    private final Findable<NutrientType, Integer> typeFindable;
+    private final Findable<NutritionFact, Long> factFindable;
 
     private final NutrientMapper mapper;
 
     @Override
     public NutrientResponseDto createNutrient(int typeId, long factId, NutrientRequestDto requestDto) {
-
-        NutrientType type = nutrientTypeServiceImpl.findByIdOrThrow(typeId, () -> new NutrientTypeNotFoundException(typeId));
-
-        NutritionFact fact = nutritionFactServiceImpl.findByIdOrThrow(factId, () -> new NutritionFactNotFoundException(factId));
-
+        NutrientType type = typeFindable.findByIdOrThrow(typeId, () -> new NutrientTypeNotFoundException(typeId));
+        NutritionFact fact = factFindable.findByIdOrThrow(factId, () -> new NutritionFactNotFoundException(factId));
         this.throwIfExists(typeId, factId);
 
         Nutrient nutrient = new Nutrient(requestDto.getAmount(), type, fact);
-
         Nutrient savedNutrient = nutrientRepository.save(nutrient);
 
         return mapper.mapNutrientToDto(savedNutrient);

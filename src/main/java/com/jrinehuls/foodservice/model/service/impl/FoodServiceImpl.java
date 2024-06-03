@@ -1,10 +1,10 @@
-package com.jrinehuls.foodservice.service.impl;
+package com.jrinehuls.foodservice.model.service.impl;
 
 import com.jrinehuls.foodservice.model.dto.food.FoodRequestDto;
 import com.jrinehuls.foodservice.model.dto.food.FoodResponseDto;
 import com.jrinehuls.foodservice.model.entity.Food;
+import com.jrinehuls.foodservice.model.service.FoodService;
 import com.jrinehuls.foodservice.repository.FoodRepository;
-import com.jrinehuls.foodservice.service.FoodService;
 import com.jrinehuls.foodservice.util.mapping.food.FoodMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

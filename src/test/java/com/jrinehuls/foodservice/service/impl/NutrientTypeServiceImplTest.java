@@ -3,6 +3,7 @@ package com.jrinehuls.foodservice.service.impl;
 import com.jrinehuls.foodservice.exception.notfound.NutrientTypeNotFoundException;
 import com.jrinehuls.foodservice.model.dto.nutrient.type.NutrientTypeResponseDto;
 import com.jrinehuls.foodservice.model.entity.NutrientType;
+import com.jrinehuls.foodservice.model.service.impl.NutrientTypeServiceImpl;
 import com.jrinehuls.foodservice.repository.NutrientTypeRepository;
 import com.jrinehuls.foodservice.util.mapping.nutrient.NutrientTypeMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -11,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 

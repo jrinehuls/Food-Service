@@ -2,7 +2,7 @@ package com.jrinehuls.foodservice.controller;
 
 import com.jrinehuls.foodservice.model.dto.food.FoodRequestDto;
 import com.jrinehuls.foodservice.model.dto.food.FoodResponseDto;
-import com.jrinehuls.foodservice.service.FoodService;
+import com.jrinehuls.foodservice.model.service.FoodService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

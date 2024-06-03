@@ -1,4 +1,4 @@
-package com.jrinehuls.foodservice.service;
+package com.jrinehuls.foodservice.model.service;
 
 import com.jrinehuls.foodservice.model.dto.nutrition.NutritionFactResponseDto;
 import com.jrinehuls.foodservice.model.dto.nutrition.NutritionFactRequestDto;
