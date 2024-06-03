@@ -28,19 +28,23 @@ public class NutritionFactMapper {
     public void mapDtoToNutritionFact(NutritionFact nutritionFact, NutritionFactRequestDto requestDto) {
         nutritionFact.setServingSize(requestDto.getServingSize());
         nutritionFact.setServingUnit(requestDto.getServingUnit());
+        nutritionFact.setNutrients(new ArrayList<>());
     }
 
     public NutritionFactResponseDto mapFactToDto(NutritionFact nutritionFact) {
         NutritionFactResponseDto responseDto = new NutritionFactResponseDto();
-        List<NutrientForFactResponseDto> nutrients = new ArrayList<>();
-        for (Nutrient nutrient : nutritionFact.getNutrients()) {
-            nutrients.add(nutrientMapper.mapNutrientToDtoForFact(nutrient));
+        List<NutrientForFactResponseDto> nutrientResponses = new ArrayList<>();
+        List<Nutrient> nutrients = nutritionFact.getNutrients();
+        if (nutrients != null) {
+            for (Nutrient nutrient : nutrients) {
+                nutrientResponses.add(nutrientMapper.mapNutrientToDtoForFact(nutrient));
+            }
         }
         responseDto.setId(nutritionFact.getId());
         responseDto.setServingSize(nutritionFact.getServingSize());
         responseDto.setServingUnit(nutritionFact.getServingUnit());
-        responseDto.setCalories(this.calcCalories(nutrients));
-        responseDto.setNutrients(nutrients);
+        responseDto.setCalories(this.calcCalories(nutrientResponses));
+        responseDto.setNutrients(nutrientResponses);
         return responseDto;
     }
 
@@ -48,8 +52,8 @@ public class NutritionFactMapper {
         int calories = 0;
         for (NutrientForFactResponseDto nutrient : nutrients) {
             switch (nutrient.getName().toLowerCase()) {
-                case "fat" -> calories += 9;
-                case "carbohydrate", "protein" -> calories += 4;
+                case "fat" -> calories += 9 * nutrient.getAmount();
+                case "carbohydrate", "protein" -> calories += 4 * nutrient.getAmount();
                 default -> {}
             }
         }
