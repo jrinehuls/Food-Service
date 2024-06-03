@@ -1,7 +1,5 @@
 package com.jrinehuls.foodservice.service.impl;
 
-import com.jrinehuls.foodservice.exception.conflict.ConflictException;
-import com.jrinehuls.foodservice.exception.conflict.NutrientTypeConflictException;
 import com.jrinehuls.foodservice.exception.notfound.NotFoundException;
 import com.jrinehuls.foodservice.exception.notfound.NutrientTypeNotFoundException;
 import com.jrinehuls.foodservice.model.dto.nutrient.type.NutrientTypeResponseDto;
@@ -50,19 +48,6 @@ public class NutrientTypeServiceImpl implements NutrientTypeService, Findable<Nu
     @Override
     public <X extends NotFoundException> NutrientType findByIdOrThrow(Integer id, Supplier<X> supplier) {
         return nutrientTypeRepository.findById(id).orElseThrow(supplier);
-    }
-
-    @Override
-    public <X extends NotFoundException> NutrientType findByNameOrThrow(String name, Supplier<X> supplier) {
-        return nutrientTypeRepository.findByNameIgnoreCase(name).orElseThrow(supplier);
-    }
-
-    @Override
-    public <X extends ConflictException> void throwIfExists(String name, Supplier<X> supplier) {
-        boolean exists = nutrientTypeRepository.findByNameIgnoreCase(name).isPresent();
-        if (exists) {
-            throw supplier.get();
-        }
     }
 
 }

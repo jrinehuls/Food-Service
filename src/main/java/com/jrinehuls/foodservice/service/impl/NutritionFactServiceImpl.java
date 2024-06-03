@@ -68,13 +68,4 @@ public class NutritionFactServiceImpl implements NutritionFactService, Findable<
         return nutritionFactRepository.findById(id).orElseThrow(supplier);
     }
 
-    @Override
-    public <X extends NotFoundException> NutritionFact findByNameOrThrow(String name, Supplier<X> supplier) {
-        return null;
-    }
-
-    @Override
-    public <X extends ConflictException> void throwIfExists(String field, Supplier<X> supplier) {
-
-    }
 }

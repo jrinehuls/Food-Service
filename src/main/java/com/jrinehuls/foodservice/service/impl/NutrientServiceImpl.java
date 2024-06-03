@@ -1,6 +1,7 @@
 package com.jrinehuls.foodservice.service.impl;
 
 import com.jrinehuls.foodservice.exception.conflict.ConflictException;
+import com.jrinehuls.foodservice.exception.conflict.NutrientConflictException;
 import com.jrinehuls.foodservice.exception.notfound.NotFoundException;
 import com.jrinehuls.foodservice.exception.notfound.NutrientNotFoundException;
 import com.jrinehuls.foodservice.exception.notfound.NutrientTypeNotFoundException;
@@ -35,11 +36,11 @@ public class NutrientServiceImpl implements NutrientService, Findable<Nutrient, 
     @Override
     public NutrientResponseDto createNutrient(int typeId, long factId, NutrientRequestDto requestDto) {
 
-        NutrientType type = nutrientTypeServiceImpl.findByIdOrThrow(typeId,
-                () -> new NutrientTypeNotFoundException(typeId));
+        NutrientType type = nutrientTypeServiceImpl.findByIdOrThrow(typeId, () -> new NutrientTypeNotFoundException(typeId));
 
-        NutritionFact fact = nutritionFactServiceImpl.findByIdOrThrow(factId,
-                () -> new NutritionFactNotFoundException(factId));
+        NutritionFact fact = nutritionFactServiceImpl.findByIdOrThrow(factId, () -> new NutritionFactNotFoundException(factId));
+
+        this.throwIfExists(typeId, factId);
 
         Nutrient nutrient = new Nutrient(requestDto.getAmount(), type, fact);
 
@@ -85,12 +86,12 @@ public class NutrientServiceImpl implements NutrientService, Findable<Nutrient, 
         return nutrientRepository.findById(id).orElseThrow(supplier);
     }
 
-    @Override
-    public <X extends NotFoundException> Nutrient findByNameOrThrow(String name, Supplier<X> supplier) {
-        return null;
+    private void throwIfExists(int nutrientTypeId, long nutritionFactId) {
+        boolean isPresent = nutrientRepository.findByNutrientTypeIdAndNutritionFactId(nutrientTypeId, nutritionFactId).isPresent();
+        if (isPresent) {
+            throw new NutrientConflictException(nutrientTypeId, nutritionFactId);
+        }
     }
 
-    @Override
-    public <X extends ConflictException> void throwIfExists(String field, Supplier<X> supplier) {}
 
 }
