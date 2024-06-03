@@ -7,7 +7,7 @@ public class NutrientResponseDto {
 
     private Long id;
     private Integer amount;
-    private String uom;
-    private String type;
+    private Integer nutrientTypeId;
+    private Long nutritionFactId;
 
 }

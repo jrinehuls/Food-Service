@@ -1,6 +1,5 @@
 package com.jrinehuls.foodservice.util.mapping.nutrient;
 
-import com.jrinehuls.foodservice.model.dto.nutrient.type.NutrientTypeRequestDto;
 import com.jrinehuls.foodservice.model.dto.nutrient.type.NutrientTypeResponseDto;
 import com.jrinehuls.foodservice.model.entity.NutrientType;
 import org.springframework.stereotype.Component;
@@ -12,17 +11,8 @@ public class NutrientTypeMapper {
         NutrientTypeResponseDto responseDto = new NutrientTypeResponseDto();
         responseDto.setId(nutrientType.getId());
         responseDto.setName(nutrientType.getName());
+        responseDto.setUom(nutrientType.getUom());
         return responseDto;
-    }
-
-    public NutrientType mapDtoToNutrientType(NutrientTypeRequestDto requestDto) {
-        NutrientType nutrientType = new NutrientType();
-        nutrientType.setName(requestDto.getName());
-        return nutrientType;
-    }
-
-    public void mapDtoToNutrientType(NutrientType current, NutrientTypeRequestDto requestDto) {
-        current.setName(requestDto.getName());
     }
 
 }

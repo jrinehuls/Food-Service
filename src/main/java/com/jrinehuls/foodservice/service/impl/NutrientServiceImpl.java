@@ -4,15 +4,14 @@ import com.jrinehuls.foodservice.exception.conflict.ConflictException;
 import com.jrinehuls.foodservice.exception.notfound.NotFoundException;
 import com.jrinehuls.foodservice.exception.notfound.NutrientNotFoundException;
 import com.jrinehuls.foodservice.exception.notfound.NutrientTypeNotFoundException;
-import com.jrinehuls.foodservice.exception.notfound.NutrientUomNotFoundException;
+import com.jrinehuls.foodservice.exception.notfound.NutritionFactNotFoundException;
 import com.jrinehuls.foodservice.model.dto.nutrient.NutrientRequestDto;
 import com.jrinehuls.foodservice.model.dto.nutrient.NutrientResponseDto;
 import com.jrinehuls.foodservice.model.entity.Nutrient;
 import com.jrinehuls.foodservice.model.entity.NutrientType;
-import com.jrinehuls.foodservice.model.entity.NutrientUom;
+import com.jrinehuls.foodservice.model.entity.NutritionFact;
 import com.jrinehuls.foodservice.repository.NutrientRepository;
-import com.jrinehuls.foodservice.repository.NutrientTypeRepository;
-import com.jrinehuls.foodservice.repository.NutrientUomRepository;
+import com.jrinehuls.foodservice.repository.NutritionFactRepository;
 import com.jrinehuls.foodservice.service.Findable;
 import com.jrinehuls.foodservice.service.NutrientService;
 import com.jrinehuls.foodservice.util.mapping.nutrient.NutrientMapper;
@@ -28,21 +27,21 @@ import java.util.function.Supplier;
 public class NutrientServiceImpl implements NutrientService, Findable<Nutrient, Long> {
 
     private final NutrientRepository nutrientRepository;
-    private final Findable<NutrientUom, Integer> nutrientUomServiceImpl;
     private final Findable<NutrientType, Integer> nutrientTypeServiceImpl;
+    private final Findable<NutritionFact, Long> nutritionFactServiceImpl;
+
     private final NutrientMapper mapper;
 
     @Override
-    public NutrientResponseDto createNutrient(NutrientRequestDto requestDto) {
-        String uomName = requestDto.getUom();
-        String typeName = requestDto.getType();
+    public NutrientResponseDto createNutrient(int typeId, long factId, NutrientRequestDto requestDto) {
 
-        NutrientUom uom = nutrientUomServiceImpl.findByNameOrThrow(uomName,
-                () -> new NutrientUomNotFoundException(String.format("NutrientUom with name %s not found", uomName)));
-        NutrientType type = nutrientTypeServiceImpl.findByNameOrThrow(typeName,
-                () -> new NutrientTypeNotFoundException(String.format("NutrientType with name %s not found", typeName)));
+        NutrientType type = nutrientTypeServiceImpl.findByIdOrThrow(typeId,
+                () -> new NutrientTypeNotFoundException(typeId));
 
-        Nutrient nutrient = new Nutrient(requestDto.getAmount(), uom, type);
+        NutritionFact fact = nutritionFactServiceImpl.findByIdOrThrow(factId,
+                () -> new NutritionFactNotFoundException(factId));
+
+        Nutrient nutrient = new Nutrient(requestDto.getAmount(), type, fact);
 
         Nutrient savedNutrient = nutrientRepository.save(nutrient);
 
@@ -70,12 +69,7 @@ public class NutrientServiceImpl implements NutrientService, Findable<Nutrient, 
     @Override
     public NutrientResponseDto updateNutrient(long id, NutrientRequestDto requestDto) {
         Nutrient nutrient = this.findByIdOrThrow(id, () -> new NutrientNotFoundException(id));
-        if (!nutrient.getType().getName().equals(requestDto.getType())) {
-            updateNutrientType(nutrient, requestDto.getType());
-        }
-        if (!nutrient.getUom().getName().equals(requestDto.getUom())) {
-            updateNutrientUom(nutrient, requestDto.getUom());
-        }
+        nutrient.setAmount(requestDto.getAmount());
         Nutrient updatedNutrient = nutrientRepository.save(nutrient);
         return mapper.mapNutrientToDto(updatedNutrient);
     }
@@ -88,7 +82,7 @@ public class NutrientServiceImpl implements NutrientService, Findable<Nutrient, 
 
     @Override
     public <X extends NotFoundException> Nutrient findByIdOrThrow(Long id, Supplier<X> supplier) {
-        return null;
+        return nutrientRepository.findById(id).orElseThrow(supplier);
     }
 
     @Override
@@ -98,17 +92,5 @@ public class NutrientServiceImpl implements NutrientService, Findable<Nutrient, 
 
     @Override
     public <X extends ConflictException> void throwIfExists(String field, Supplier<X> supplier) {}
-
-    private void updateNutrientType(Nutrient nutrient, String typeName) {
-        NutrientType newType = nutrientTypeServiceImpl.findByNameOrThrow(typeName,
-                () -> new NutrientTypeNotFoundException(String.format("NutrientType with name %s not found", typeName)));
-        nutrient.setType(newType);
-    }
-
-    private void updateNutrientUom(Nutrient nutrient, String uomName) {
-        NutrientUom newUom = nutrientUomServiceImpl.findByNameOrThrow(uomName,
-                () -> new NutrientUomNotFoundException(String.format("NutrientType with name %s not found", uomName)));
-        nutrient.setUom(newUom);
-    }
 
 }

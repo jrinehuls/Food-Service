@@ -12,8 +12,8 @@ public class NutrientMapper {
         NutrientResponseDto responseDto = new NutrientResponseDto();
         responseDto.setId(nutrient.getId());
         responseDto.setAmount(nutrient.getAmount());
-        responseDto.setUom(nutrient.getUom().getName());
-        responseDto.setType(nutrient.getType().getName());
+        responseDto.setNutrientTypeId(nutrient.getType().getId());
+        responseDto.setNutritionFactId(nutrient.getNutritionFact().getId());
         return responseDto;
     }
 

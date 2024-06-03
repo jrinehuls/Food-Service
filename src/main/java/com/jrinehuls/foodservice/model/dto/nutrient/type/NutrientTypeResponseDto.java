@@ -7,5 +7,6 @@ public class NutrientTypeResponseDto {
 
     private Integer id;
     private String name;
+    private String uom;
 
 }

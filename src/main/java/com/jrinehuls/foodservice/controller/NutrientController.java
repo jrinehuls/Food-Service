@@ -18,9 +18,9 @@ public class NutrientController {
 
     private final NutrientService nutrientService;
 
-    @PostMapping()
-    public ResponseEntity<NutrientResponseDto> createNutrient(@Valid @RequestBody NutrientRequestDto dto) {
-        NutrientResponseDto responseDto = nutrientService.createNutrient(dto);
+    @PostMapping("type/{typeId}/fact{factId}")
+    public ResponseEntity<NutrientResponseDto> createNutrient(@PathVariable int typeId, @PathVariable long factId, @Valid @RequestBody NutrientRequestDto dto) {
+        NutrientResponseDto responseDto = nutrientService.createNutrient(typeId, factId, dto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 

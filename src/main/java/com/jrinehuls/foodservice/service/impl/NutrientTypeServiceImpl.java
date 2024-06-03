@@ -4,7 +4,6 @@ import com.jrinehuls.foodservice.exception.conflict.ConflictException;
 import com.jrinehuls.foodservice.exception.conflict.NutrientTypeConflictException;
 import com.jrinehuls.foodservice.exception.notfound.NotFoundException;
 import com.jrinehuls.foodservice.exception.notfound.NutrientTypeNotFoundException;
-import com.jrinehuls.foodservice.model.dto.nutrient.type.NutrientTypeRequestDto;
 import com.jrinehuls.foodservice.model.dto.nutrient.type.NutrientTypeResponseDto;
 import com.jrinehuls.foodservice.model.entity.NutrientType;
 import com.jrinehuls.foodservice.repository.NutrientTypeRepository;
@@ -24,16 +23,6 @@ public class NutrientTypeServiceImpl implements NutrientTypeService, Findable<Nu
 
     private final NutrientTypeRepository nutrientTypeRepository;
     private final NutrientTypeMapper mapper;
-
-    @Override
-    public NutrientTypeResponseDto createNutrientType(NutrientTypeRequestDto requestDto) {
-        String name = requestDto.getName();
-        this.throwIfExists(name, () -> new NutrientTypeConflictException("NutritionType with name " + name + " already exists"));
-
-        NutrientType nutrientType = mapper.mapDtoToNutrientType(requestDto);
-        NutrientType savedNutrientType = nutrientTypeRepository.save(nutrientType);
-        return mapper.mapNutrientTypeToDto(savedNutrientType);
-    }
 
     @Override
     public NutrientTypeResponseDto getNutrientType(int id) {
@@ -56,24 +45,6 @@ public class NutrientTypeServiceImpl implements NutrientTypeService, Findable<Nu
             responseDtos.add(mapper.mapNutrientTypeToDto(nutrientType));
         }
         return responseDtos;
-    }
-
-    @Override
-    public NutrientTypeResponseDto updateNutrientType(int id, NutrientTypeRequestDto requestDto) {
-        NutrientType nutrientType = this.findByIdOrThrow(id, () -> new NutrientTypeNotFoundException(id));
-
-        String name = requestDto.getName();
-        this.throwIfExists(name, () -> new NutrientTypeConflictException("NutritionType with name " + name + " already exists"));
-
-        mapper.mapDtoToNutrientType(nutrientType, requestDto);
-        NutrientType updatedNutrientType = nutrientTypeRepository.save(nutrientType);
-        return mapper.mapNutrientTypeToDto(updatedNutrientType);
-    }
-
-    @Override
-    public void deleteNutrientType(int id) {
-        NutrientType nutrientType = this.findByIdOrThrow(id, () -> new NutrientTypeNotFoundException(id));
-        nutrientTypeRepository.delete(nutrientType);
     }
 
     @Override
