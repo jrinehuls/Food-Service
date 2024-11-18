@@ -21,9 +21,7 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public FoodResponseDto createFood(FoodRequestDto requestDto) {
-        Food food = foodMapper.mapRequestToFood(requestDto);
-        Food savedFood = foodRepository.save(food);
-        return foodMapper.mapFoodToDto(savedFood);
+        return null;
     }
 
     @Override
