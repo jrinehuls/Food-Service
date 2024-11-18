@@ -9,6 +9,7 @@ import com.jrinehuls.foodservice.util.mapping.food.FoodMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +27,12 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public List<FoodResponseDto> getAllFoods() {
-        return null;
+        List<FoodResponseDto> responseDtos = new ArrayList<>();
+        List<Food> foods = foodRepository.findAll();
+        for (Food food : foods) {
+            responseDtos.add(foodMapper.mapFoodToDto(food));
+        }
+        return responseDtos;
     }
 
     @Override
